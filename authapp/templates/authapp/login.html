@@ -1,0 +1,40 @@
+{% extends 'authapp/layout.html' %}
+{% load static %}
+{% block title %}
+Login
+{% endblock %}
+{% block body %}
+<main>
+    <div class="card">
+        <h2 class="center">Login</h2>
+        {% if messages %}
+                {% for message in messages %}
+                <div class="message">
+                    <div>
+                        {{ message|safe }}
+                    </div>
+                    <div>
+                        <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+                    </div>
+                </div>
+                {% endfor %}
+        {% endif %}
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    <p>{{ field.errors }}</p>
+                    <div style="display: flex; width: 100%;">
+                        <p style="width: 18%;">{{ field.label_tag }}</p><p style="width:79%">{{ field }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <input style="display: block; width: 20%; margin: auto;" type="submit" value="submit" class="btn btn-primary">
+        </form>
+        <p class="center">
+            Dont have an account!! then <a href="{% url 'register' %}">register</a>
+        </p>
+
+    </div>
+</main>
+{% endblock %}

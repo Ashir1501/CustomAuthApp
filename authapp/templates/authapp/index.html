@@ -1,0 +1,49 @@
+{% extends 'authapp/layout.html' %}
+{% load static %}
+{% block title %}
+Home
+{% endblock %}
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="message" style="margin-bottom: 5px;">
+        <div>
+            {{ message|safe }}
+        </div>
+        <div>
+            <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<main>
+    <div class="grid-container">
+        <div class="item-1">
+            {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="{{ user.username }} image">
+            {% else %}
+            <span class="center">Not Available</span>
+            {% endif %}
+        </div>
+        <div class="item-2">
+            <p>First Name: {{ user.first_name }}</p>
+            <p>Last Name: {{ user.last_name }}</p>
+            <p>Username: {{ user.username }}</p>
+            <p>Email: {{ user.email }}</p>
+            {% if user.is_admin %}
+            <p>Type: Admin</p>
+            {% else %}
+            <p>Type: {{ request.user.groups.all.0.name }}</p>
+            {% endif %}
+            <h3 class="center">Address</h3>
+            <p>Line1: {{ address.line_1 }}</p>
+            <p>City: {{ address.city }}</p>
+            <p>State: {{ address.state }}</p>
+            <p>Pin Code: {{ address.pin_code }}</p>
+        </div>
+    </div>
+</main>
+
+<a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+{% endblock %}

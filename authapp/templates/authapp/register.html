@@ -1,0 +1,79 @@
+{% extends 'authapp/layout.html' %}
+{% load static %}
+{% block title %}
+Register
+{% endblock %}
+{% block body %}
+
+<main>
+    <div class="card" style="margin-bottom: 5%;">
+        <h1 class="center">Register</h2>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="message" style="margin-top: 5px;margin-bottom: 5px;">
+                <div>
+                    {{ message|safe }}
+                </div>
+                <div>
+                    <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% if uform.non_field_errors %}
+            {% for error in form.non_field_errors %}
+            <div class="message" style="margin-top: 5px;margin-bottom: 5px;">
+                <div>
+                    {{ error }}
+                </div>
+                <div>
+                    <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+                </div>
+            </div>
+            {% endfor %}  
+        {% endif %}
+        <form action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in uform %}
+            <div class="fieldWrapper">
+                {% if field.errors %}
+                <div class="message" style="margin-top: 5px;margin-bottom: 5px;">
+                    <div>
+                        {{ field.errors }}
+                    </div>
+                    <div>
+                        <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+                    </div>
+                </div>
+                {% endif %}
+                <div style="display: flex; width: 100%;">
+                    <p style="width: 18%;">{{ field.label_tag }}</p><p style="width:79%">{{ field }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <h2 class="center">Address</h2>
+            {% for field in aform %}
+            <div class="fieldWrapper">
+                {% if field.errors %}
+                <div class="message" style="margin-top: 5px;margin-bottom: 5px;">
+                    <div>
+                        {{ field.errors }}
+                    </div>
+                    <div>
+                        <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+                    </div>
+                </div>
+                {% endif %}
+                <div style="display: flex; width: 100%;">
+                    <p style="width: 18%;">{{ field.label_tag }}</p><p style="width:79%">{{ field }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            <input style="display: block; width: 20%; margin: auto;" type="submit" class="btn btn-primary center" value="submit">
+        </form>
+        <p class="center">
+            Already have an account!! then <a href="{% url 'login' %}">Login</a>
+        </p>
+    </div>
+</main>
+{% endblock %}
