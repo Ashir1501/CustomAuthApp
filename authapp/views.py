@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from django.views.decorators.cache import cache_control
 
 # Create your views here.
+# this tell's browser to not store the cache
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def register(request):
     if request.user.is_authenticated:
@@ -18,10 +19,10 @@ def register(request):
         user_form = UserForm(request.POST, request.FILES)
         address_form = AddressForm(request.POST)
 
-        if user_form.is_valid() and address_form.is_valid():
+        if user_form.is_valid() and address_form.is_valid():   #checks for username or email unique. if form is valid converts data to appropriate python data types and stores in cleaned_data dict
             try:
                 user = user_form.save(commit=False) #get the instance of user form before saving it
-                address = address_form.save(commit=False)
+                address = address_form.save(commit=False) # get the instance of address before saving
 
                 designation = user_form.cleaned_data['designation']
                 if not designation:
@@ -52,7 +53,7 @@ def register(request):
                 messages.success(request, f"signed in as <b>{user.username}</b>")
                 return redirect('index')
             except IntegrityError as e:
-                messages.error(request, str(e)+" Kindly re-upload your profile picture if necessary")
+                messages.error(request, str(e)+". Kindly re-upload your profile picture if necessary")
                 return render(request, 'authapp/register.html', {'uform': user_form, 'aform': address_form})
         else:
             messages.error(request," Kindly re-upload your profile picture if necessary")

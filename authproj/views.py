@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.cache import cache_control
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url=reverse_lazy("login"))
+@login_required(login_url=reverse_lazy("login"))  #reverse_lazy makes sure all the urls are loaded then looks for the provided url
 def index(request):
     if request.user.is_authenticated:
         user = User.objects.get(username = request.user.username)
