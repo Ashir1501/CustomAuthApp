@@ -1,0 +1,49 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="message" style="margin-bottom: 5px;">
+        <div>
+            {{ message }}
+        </div>
+        <div>
+            <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+<div id="grid-post-container">
+    <div id="title2">
+        <h4>{{ post.title }}</h4>
+    </div>
+    <div id="detail2">
+        <p><span>Category:</span><span>{{ post.category.name }}</span></p>
+        <p><span>Created By:</span><span>{{ post.created_by }}</span></p>
+        <p><span>Created At:</span><span>{{ post.created_at }}</span></p>
+        {% if post.is_draft %}
+        <p><span>Type: </span><span>Draft</span> <a href="{% url 'post_update' post.pk %}" class="btn btn-primary">Edit</a></pd>
+        {% endif %}
+    </div>
+    <div id="image2">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    </div>
+    <div id="summary2">
+        <h5>Summary</h5>
+        <p>
+            {{ post.summary }}
+        </p>
+    </div>
+    <div id="content2">
+        <h5>Content</h5>
+        <p>
+            {{ post.content|safe }}
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+{% block title %}
+{% if request.path == '/blog/posts/drafts' %}
+    Drafts
+{% else %}
+    Posts
+{% endif %}
+{% endblock %}
+{% block body %}
+<div class="dropdown" style="margin-bottom: 2%;">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+    Categories
+  </button>
+  <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+    <li><a class="dropdown-item active" onclick="filter_posts('All')">All</a></li>
+    {% for category in categories %}
+    <li><a class="dropdown-item" onclick="filter_posts('{{ category.name }}')">{{ category.name }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
+<div id="posts-container" class="mt-3">
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    const posts = JSON.parse('{{ posts_json|escapejs }}');
+
+    function filter_posts(category) {
+        const filtered = category === 'All'
+            ? posts
+            : posts.filter(post => post.category === category);
+
+        const container = document.getElementById('posts-container');
+        container.innerHTML = '';  // Clear previous
+        if(filtered.length != 0){
+            filtered.forEach(post => {
+                const html = `
+                    <div class="grid-posts-container">
+                        <div class="image3">
+                            <img src="${post.image_url}" alt="${post.title}-image">
+                        </div>
+                        <div class="description3">
+                            <h4>${post.title}</h4>
+                            <p>${post.summary}</p>
+                            <p><a href="/blog/posts/${post.id}">Read more...</a></p>
+                        </div>
+                    </div>`;
+                container.innerHTML += html;
+            });
+        }else{
+            const html = `
+                <div class='message-box'>
+                    <p>Not Available</p>
+                    <img src="{% static 'blog/warning.png' %}">
+                </div>
+                    `;
+            container.innerHTML += html;
+        }
+    }
+
+    // this loads all the post
+    document.addEventListener('DOMContentLoaded', () => {
+        filter_posts('All');
+    });
+</script>
+
+{% endblock %}

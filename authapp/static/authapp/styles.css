@@ -13,6 +13,8 @@ nav{
     justify-content: space-between;
     width: 100%;
     z-index: 2;
+    position: fixed;
+    top: 0;
 }
 .nav-link{
     text-decoration: none;
@@ -36,6 +38,7 @@ nav{
 }
 
 main{
+    margin-top: 5%;
     height: 100%;
     width: 100%;
 }
@@ -45,7 +48,7 @@ main{
 }
 .card{
     width: 60%;
-    margin: 5% auto 0 auto;
+    margin: 0 auto 0 auto;
     border: 2px solid #6e9da8;
     padding: 10px;
     border-radius: 8px;

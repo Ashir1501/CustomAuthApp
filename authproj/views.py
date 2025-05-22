@@ -10,5 +10,5 @@ def index(request):
     if request.user.is_authenticated:
         user = User.objects.get(username = request.user.username)
         address = Address.objects.get(user=user)
-        return render(request,'authapp/index.html',{'user':user,'address':address})
+        return render(request,'blog/index.html',{'user':user,'address':address})
     return redirect(reverse_lazy('login'))

@@ -13,17 +13,6 @@
     <link rel="stylesheet" href="{% static 'authapp/home.css' %}">
 </head>
 <body>
-    {% if request.user.is_authenticated %}
-    <nav>
-        <h1>Home</h1>
-
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#">{{ request.user.username }}</a>
-            </li>
-        </ul>
-    </nav>
-    {% endif %}
     {% block body %}
     {% endblock %}
     <script src="{% static 'authapp/dynamic.js' %}"></script>

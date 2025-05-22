@@ -1,0 +1,50 @@
+{% extends 'blog/layout.html' %}
+{% load static %}
+
+{% block title %}
+Create
+{% endblock %}
+
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="message" style="margin-bottom: 5px;">
+        <div>
+            {{ message }}
+        </div>
+        <div>
+            <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+<div class="card">
+    <form action="
+    {% if form.instance.pk %}
+        {% url 'post_update' id=form.instance.pk %}
+    {% else %}
+        {% url 'post_create' %}
+    {% endif %}
+    " method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="fieldWrapper">
+            {% if field.errors %}
+            <div class="message" style="margin-top: 5px;margin-bottom: 5px;">
+                <div>
+                    {{ field.errors }}
+                </div>
+                <div>
+                    <img src="{% static 'authapp/close_icon.png' %}" class="close-btn" alt="close_icon">
+                </div>
+            </div>
+            {% endif %}
+            <div style="display: flex; width: 100%;">
+                <p style="width: 18%;">{{ field.label_tag }}</p><p style="width:79%">{{ field }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        <input type="submit" class="form-control btn btn-primary" value="Upload">
+    </form>
+</div>
+{% endblock %}
